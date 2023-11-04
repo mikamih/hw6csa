@@ -12,7 +12,6 @@ Category VARCHAR(255),
 Unit VARCHAR(255),
 Price INT);
 
-
 CREATE TABLE Orders(
 OrderID INT,
 CustomerID INT,
@@ -949,31 +948,74 @@ INSERT INTO OrderDetails VALUES(516, 10442, 66, 60);
 INSERT INTO OrderDetails VALUES(517, 10443, 11, 6);
 INSERT INTO OrderDetails VALUES(518, 10443, 28, 12);
 
-
-SELECT * from CustomerS;
+SELECT * from Customers;
 SELECT * from Products;
 SELECT * from Orders;
-SELECT * from OrderDetailS;
+SELECT * from OrderDetails;
 
+--1
 SELECT * FROM Customers 
 WHERE Country LIKE 'Mexico';
 
-SELECT * FROM Customers 
-WHERE Country LIKE 'Mexico';
-
+--2
 SELECT * FROM Customers 
 WHERE Country IN ('Mexico', 'Germany', 'UK');
 
+--3
 SELECT * FROM Customers 
 WHERE Country IN ('Mexico', 'USA', 'Canada');
 
+--4
+SELECT * FROM Customers
+WHERE Country LIKE 'USA'
+AND CITY IS NOT 'San Francisco';
+
+--6
 SELECT * FROM Products
 ORDER BY Price;
 
+--7
 SELECT * FROM Products
 WHERE Category like 'Beverages' 
 ORDER BY Price DESC;
 
+--8
 SELECT * FROM Products
 WHERE Price BETWEEN 10 AND 25
-AND Unit like '%Box%' 
+AND Unit like '%Box%';
+
+--1
+SELECT * FROM Orders
+ORDER BY OrderDate;
+
+--2
+SELECT COUNT (*) FROM OrderS;
+
+--3
+SELECT OrderID, SUM(Quantity) FROM OrderDetails
+GROUP BY OrderID
+;
+
+--4
+SELECT SUM(Quantity) * 1.0/COUNT(DISTINCT OrderID) AS AvgItemS FROM OrderDetails;
+--5
+SELECT OrderID, COUNT(*) FROM OrderDetails
+GROUP BY OrderID;
+
+--6
+SELECT Category, AVG(Price) FROM Products
+GROUP BY Category
+HAVING AVG(Price) BETWEEN 20 AND 30;
+
+--7
+SELECT Country, COUNT(*) FROM Customers
+GROUP BY Country
+HAVING COUNT() >10;
+
+--9
+SELECT ProductID, COUNT(*) FROM OrderDetailS
+GROUP BY ProductID
+HAVING COUNT() >10;
+
+--10
+SELECT SUM(ProductID = 1) FROM OrderDetailS;
